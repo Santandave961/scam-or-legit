@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scam or Legit? 🇳🇬</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0d1511"><link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef2ee;--fg:#13221a;--card:#fff;--mut:#58675e;--g:#0b6b3a;--gt:#fff;--r:#c4281c;--bd:#d3dcd5;--bar:#d3dcd5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1511;--fg:#e9f1ec;--card:#17221b;--mut:#9db0a4;--g:#36c46f;--gt:#06210f;--r:#ff6b5e;--bd:#2b3a30;--bar:#2b3a30}}
+:root[data-theme="dark"]{--bg:#0d1511;--fg:#e9f1ec;--card:#17221b;--mut:#9db0a4;--g:#36c46f;--gt:#06210f;--r:#ff6b5e;--bd:#2b3a30;--bar:#2b3a30}
+html,body{margin:0;height:100%}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:500 16px/1.45 "Bricolage Grotesque",system-ui,sans-serif;display:flex;justify-content:center}
+main{width:100%;max-width:480px;padding:16px;display:flex;flex-direction:column;gap:14px}
+h1{font:800 clamp(34px,11vw,52px)/.95 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 0;letter-spacing:-.02em}
+p{margin:0}.mut{color:var(--mut)}
+.hide{display:none!important}
+button{font:inherit;font-weight:800;border:0;border-radius:14px;padding:14px 16px;cursor:pointer;color:var(--gt);background:var(--g);min-height:52px}
+button.alt{background:transparent;color:var(--fg);border:2px solid var(--bd)}
+button.s{background:var(--r);color:#fff}
+button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.top{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}
+.bar{height:6px;background:var(--bar);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--g);transition:width .1s linear}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:18px;min-height:210px;touch-action:pan-y;user-select:none;position:relative;transition:transform .15s}
+.ch{display:inline-block;font-size:13px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--bar);margin-bottom:12px}
+.txt{font-size:19px;line-height:1.4}
+.stamp{position:absolute;right:14px;top:14px;font:800 34px "Bricolage Grotesque",sans-serif;border:4px solid;padding:2px 12px;border-radius:8px;transform:rotate(-8deg);opacity:0;background:var(--card)}
+.stamp.on{opacity:.9}
+.rev{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.rev b{font-size:18px}
+.big{font:800 64px/1 "Bricolage Grotesque",sans-serif}
+.share{background:var(--card);border:2px dashed var(--bd);border-radius:18px;padding:18px;white-space:pre-line}
+.top1{animation:pop .6s ease-out}@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}@media (prefers-reduced-motion:reduce){.top1{animation:none}}input{font:inherit;padding:14px;border-radius:14px;border:2px solid var(--bd);background:var(--card);color:var(--fg);min-height:52px}select,textarea{font:inherit;padding:14px;border-radius:14px;border:2px solid var(--bd);background:var(--card);color:var(--fg)}</style></head><body><main>
+
+<section id="home" style="display:flex;flex-direction:column;gap:14px">
+<h1>Scam or Legit?</h1><p id="stk"></p><p id="chal" class="hide"></p>
+<p class="mut">10 messages. Swipe right if it's legit, left if it's a scam. Every wrong call costs you naira, and a small AI plays along to beat you.</p>
+<input id="nm" maxlength="14" placeholder="Your name (for challenges and leaderboard)" aria-label="Your name"><button id="acc" class="hide" onclick="start(false,CH.c,CH.h)">Accept the challenge</button><button id="tut" class="hide" onclick="start(false,0,false,true)">👋 First time? Start with the warm-up</button><button onclick="start(true)">Today's challenge</button>
+<button class="alt" onclick="start(false)">Random round</button><button class="alt" onclick="start(false,0,true)">⚡ Hard mode (5 seconds)</button><button class="alt" onclick="show('sub')">✍🏾 Submit a scam</button><button id="ins" class="alt hide" onclick="inst()">📲 Add to home screen</button>
+<p class="mut" style="font-size:14px">Today's challenge is the same 10 cards for everyone. Compare scores with your people.</p><p class="mut" style="font-size:13px">No accounts. The name you type is only used in challenge links and the leaderboard.</p>
+</section>
+
+<section id="game" class="hide" style="display:flex;flex-direction:column;gap:14px">
+<div class="top"><span id="prog">1/10</span><button id="mt" onclick="mute()" aria-label="Sound on or off" style="min-height:0;padding:0 10px;background:transparent;color:var(--fg);font-size:18px">🔊</button><span id="lost">Lost: ₦0</span></div>
+<div class="bar"><i id="tb"></i></div>
+<div class="card" id="card"><span class="ch" id="ch"></span><p class="txt" id="tx"></p><span class="stamp" id="st"></span></div>
+<div class="row" id="btns"><button class="s" onclick="ans(1)">← Scam</button><button onclick="ans(0)">Legit →</button></div>
+<div class="rev hide" id="rev"><b id="rv"></b><p id="rf" class="mut"></p><p id="rw"></p><p id="ai"></p><button onclick="nxt()">Next</button></div>
+</section>
+
+<section id="end" class="hide" style="display:flex;flex-direction:column;gap:14px">
+<p class="mut" id="mode"></p>
+<div class="big" id="sc"></div><p id="vs" class="mut"></p><p id="pb" class="mut"></p><div id="lb" class="rev hide"></div><div id="miss" class="rev hide"></div>
+<h1 id="rk" style="font-size:34px"></h1>
+<div class="share" id="sh"></div>
+<div class="row"><button onclick="wa()">Share on WhatsApp</button><button class="alt" onclick="cp()" id="cpb">Copy</button></div>
+<button class="alt" id="imgb" onclick="shareImg()">🖼️ Share as picture</button>
+<button class="alt" onclick="show('sub')">✍🏾 Submit a scam you've seen</button>
+<button class="alt" id="tip" onclick="tip()">☕ Enjoyed it? Buy the creator a chop</button>
+<button class="alt" onclick="goHome()">Play again</button>
+</section>
+
+<section id="sub" class="hide" style="display:flex;flex-direction:column;gap:14px">
+<h1 style="font-size:30px">Submit a scam</h1>
+<p class="mut">Seen a message that almost got you? Send it. The best ones become cards. No names, phone numbers or account numbers please.</p>
+<select id="sch" aria-label="Where did it come from?"><option>SMS</option><option>WhatsApp</option><option>Email</option><option>Instagram</option><option>Facebook</option><option>Call</option><option>Other</option></select>
+<select id="skd" aria-label="Was it a scam or legit?"><option value="scam">It was a scam</option><option value="legit">It was legit (a tricky one)</option></select>
+<textarea id="stx" maxlength="300" rows="5" placeholder="Paste or type the message. Pidgin is welcome." aria-label="The message"></textarea>
+<p id="sm" class="mut"></p>
+<button onclick="send()">Send</button><button class="alt" onclick="goHome()">Back</button>
+</section>
+</main>
+<script>
+const C=[
+["SMS","GTBank: Your account is restricted. Verify now at gtb-verify.co/login or it will be closed today.",1,"Odd link, panic, deadline","Banks don't send login links by SMS. Open your app yourself.",85000],
+["SMS","Debit Alert: NGN 12,500.00 POS purchase. Avail Bal: NGN 87,340.12. Not you? Call the number on your card.",0,"No link, no demand","It only informs you and tells you to use the number on your card.",0],
+["SMS","CONGRATS! You won ₦5,000,000 in the MTN Mega Promo. Pay ₦20,000 processing fee to claim.",1,"You never entered, pay to receive","Real prizes never ask you to pay first.",20000],
+["WhatsApp","Invest ₦100k today, collect ₦300k in 14 days. Guaranteed, no risk. Only 4 slots left!",1,"Guaranteed returns, fake scarcity","Nobody guarantees 200% in two weeks. Na Ponzi.",100000],
+["Email","Remote job, ₦400k/month. Pay ₦15,000 for training materials to start Monday.",1,"Pay to get hired","Employers pay you. You don't pay them.",15000],
+["Email","Interview invite: Data Analyst, Thursday 10am on Google Meet. From hr@ the company's own domain. Reply to confirm.",0,"Official domain, no money asked","Clear details, company email, nothing to pay.",0],
+["Instagram","Hello dear, I'm a US soldier in Syria. I want a serious relationship. Soon I'll need help with shipping fees.",1,"Stranger, military story, money coming","Classic romance scam. The 'fees' always come.",250000],
+["SMS","Bro I mistakenly sent you ₦50k. Please return it quick. [Credit Alert ₦50,000 (Pending)]",1,"'Pending' alert, pressure","Check your real balance in your bank app. Never refund off an SMS.",50000],
+["WhatsApp","Landlord: Rent is due on the 1st. Same account as last year. Call me if there's any issue.",0,"Known person, same account, invites a call","Nothing changed and you can verify by calling.",0],
+["SMS","NIN update: pay ₦2,000 to 0812xxxxxxx to avoid your line being deactivated.",1,"Payment to a personal number","Official bodies don't collect fees to personal accounts.",2000],
+["WhatsApp","Abeg send me ₦10k, I'll refund in 1 hour. Network no good, I can't call.",1,"Can't call, urgent, new number","Likely a hacked account. Call them on another line first.",10000],
+["WhatsApp","Chika: Abeg help me ₦10k for gas, I'll pay Friday. [voice note, her voice, mentions Sunday's wedding]",0,"Her voice, context only she knows","You can verify it's her, so this is a normal ask.",0],
+["Instagram","Quick loan! No BVN, no collateral. Pay ₦10,000 insurance fee first to receive ₦200k.",1,"Upfront fee, no checks","Real lenders deduct fees from the loan. They don't collect first.",10000],
+["POS","POS agent: 'Your card declined, let me retry.' He takes the card behind the counter.",1,"Card leaves your sight","Keep your card in view and cover your PIN. Card swap is common.",120000],
+["SMS","Your bank: Planned maintenance Sat 2–4am. Transfers may be delayed. No action needed.",0,"No link, no action, no money","It asks for nothing.",0],
+["Telegram","VIP crypto signals: 10x guaranteed. See members' profit screenshots. Join for ₦30k.",1,"Fake screenshots, guaranteed returns","Screenshots are easy to fake. Nobody guarantees 10x.",30000],
+["WhatsApp","UK visa guaranteed, ₦3M, no IELTS needed. Pay half now to secure your slot.",1,"Guaranteed visa, pay-half-now","No agent can guarantee a visa. Check official channels.",1500000],
+["Email","Your visa appointment is confirmed for 14 Oct, 9:30am. Manage it in your account on the official gov.uk site.",0,"You booked it, official domain","No payment asked and it points to the official site.",0],
+["SMS","Ikeja Electric: Send ₦5,000 to 0903xxxxxxx for a 50% token discount today only.",1,"Personal number, too-good discount","Buy tokens only through official channels.",5000],
+["WhatsApp","Customs: Your parcel from abroad is held. Pay ₦45,000 clearance to this account today.",1,"You expected no parcel, personal account","Customs doesn't ask for payment to personal accounts over WhatsApp.",45000],
+["SMS","Opay: Your wallet is limited. Update your BVN at opay-kyc.net within 1 hour or lose access.",1,"Look-alike link, 1-hour deadline","Do KYC updates inside the app only.",60000],
+["Call","'Bank fraud desk' calling: Read me the OTP we just sent, so we can block the thief.",1,"Asks for your OTP","No bank asks for your OTP. Hang up and call the number on your card.",150000],
+["WhatsApp","Join our cooperative: ₦50k monthly, get ₦1M in 3 months. Refer 5 friends to unlock your payout.",1,"Payout depends on recruiting","If you must bring people to get paid, na pyramid.",50000],
+["Facebook","PS5 for ₦120k. I'm travelling today so pay first, my rider will deliver.",1,"Pay first, rushed","Pay on delivery or meet in person.",120000],
+["Facebook","2-bedroom in Lekki, ₦600k/year. Pay ₦100k agent fee before seeing the keys.",1,"Too cheap, pay before inspection","See the house, verify the owner, then pay.",100000],
+["Email","Dear beneficiary, a late client left $4.5M in your name. Send your bank details to claim.",1,"Stranger's inheritance","Advance-fee fraud. The oldest trick in the book.",300000],
+["SMS","Your ATM card is due for renewal. Send your PIN to 0809xxxxxxx to receive the new one.",1,"Asks for your PIN","Never share your PIN, not even with your bank.",200000],
+["WhatsApp","Bro, I'm with the Governor's aide. ₦2M gets you a civil service slot. Only 3 left.",1,"Buying a job, pressure","Real appointments are not sold on WhatsApp.",2000000],
+["Instagram","You've been selected for a ₦500k small business grant. Pay ₦7,500 for verification.",1,"Pay to get a grant","Real grants never ask for fees.",7500],
+["WhatsApp","Your parcel is delayed. Confirm your address here to reschedule: dhl-ng-track.xyz",1,"Odd domain, unexpected parcel","Check the courier's official app or site.",15000],
+["WhatsApp","Mummy, I changed my number. Abeg send ₦30k to this account, I'm stranded.",1,"'New number' family trick","Call your child on the old number first.",30000],
+["SMS","You have a pre-approved ₦150,000 loan. Reply YES and send ₦5,000 processing fee.",1,"Fee before loan","Real lenders deduct fees from the loan.",5000],
+["Telegram","Influencer giveaway: send ₦20k, get ₦200k in 48 hours. First 100 only!",1,"Send small, get big","Money-flip giveaways are scams.",20000],
+["WhatsApp","Your job application is successful. Download the approval letter app (.apk) here.",1,".apk download","Installing apps from links can drain your bank app.",250000],
+["SMS","Concert tickets ₦25k, last 5 left. Send to this Opay number and I'll send your QR.",1,"Personal account, scarcity","Buy only from the official ticketing platform.",25000],
+["Email","A payment of $1,200 is pending on your account. Click to accept the payment.",1,"Unexpected payment, link","Log in through the official app, never the email link.",80000],
+["SMS","Your OTP is 482915 for the transfer you just started. Valid 5 mins. Do not share it with anyone.",0,"You started it, warns you not to share","Expected, and it tells you to keep it private.",0],
+["WhatsApp","Rider here with your Jumia order #4482. You paid by card, so nothing to pay on delivery.",0,"You ordered it, nothing to pay","Matches an order you placed and asks for no money.",0],
+["SMS","Planned outage on Obi Street 9am–3pm tomorrow for line maintenance.",0,"No link, no money","Pure information. Charge your phone.",0],
+["Email","Receipt: Your Netflix subscription ₦4,400 was charged. Manage it in the app.",0,"Matches your card alert","Expected charge, no link demanded.",0],
+["WhatsApp","School: Term fees are on the portal under your child's name. Pay only to the account on the school's receipt book.",0,"Official portal, known account","It points you to the usual official channels.",0],
+["SMS","Did you make a ₦400,000 transfer at 2:14am? Reply NO or call the number on your card.",0,"Tells you to use the number on your card","A real fraud alert asks you to confirm and never asks for PIN or OTP.",0],
+["SMS","You've used 90% of your 10GB data. Buy more via your telco app.",0,"No link, no money","Just usage info.",0],
+["WhatsApp","Hi, this is Tunde from Dangote Foods. We got your CV and want a call Monday 11am. No payment needed.",0,"No payment, clear details","Normal hiring contact.",0],
+["WhatsApp","Group admin: This month's contribution is ₦10k to the same account and name we've always used.",0,"Same account as always","Nothing changed and you can ask the group.",0],
+["SMS","Pharmacy: Your prescription is ready for pickup. Pay at the counter.",0,"Pay in person","You pay at the counter, not via a link.",0],
+["Email","You just clicked 'Forgot password'. Use this link to reset it. If it wasn't you, ignore this.",0,"You requested it","You triggered it yourself.",0],
+["WhatsApp","Mechanic: Your car is ready. Total ₦68,000 as quoted Tuesday. Pay at the shop.",0,"Matches the quote","Same price, pay in person.",0],
+["SMS","Your card ending 4417 was blocked after 3 wrong PIN tries. Use your app or visit a branch to unblock.",0,"No link, no PIN requested","It matches what happened and asks for nothing.",0],
+["WhatsApp","Oga abeg, I dey stranded for Benin. Send ₦15k make I enter bus, I go pay you back tomorrow. Na my new number be this.",1,"New number, stranded story","Call the old number first. Cloned accounts dey use this one.",15000],
+["SMS","Congrats o! You don win ₦2M for Glo promo. Send ₦10k for delivery make we send am.",1,"You no enter anything","Person wey win no go pay to collect am.",10000],
+["WhatsApp","My brother, 3 months now I dey invest for this forex thing. ₦50k turn ₦250k. Send join now before slot finish.",1,"Quick gains, 'slot go finish'","Fast returns plus rush na Ponzi song.",50000],
+["Facebook","Fairly used iPhone 13, ₦90k only. I no dey Lagos, just pay and my guy go send am.",1,"Too cheap, seller far away","Cheap phone plus pay-first na trap.",90000],
+["SMS","Dear customer, your account don block. Click this link make we unblock am sharp sharp.",1,"Link, panic","Bank no dey send unblock link for SMS.",70000],
+["Call","Hello sir, I be your bank staff. Abeg tell me the code wey dem send you make I confirm say na you.",1,"Asks for your code","Nobody wey get sense go ask for your OTP.",180000],
+["WhatsApp","I get plot for Epe, ₦300k per plot. Only today, everybody dey rush am. No need to visit, just pay.",1,"Pay without seeing the land","No pay for land wey you never see or verify papers.",300000],
+["Instagram","Sister, I go teach you how to make ₦500k weekly from your phone. Just pay ₦12k for the class.",1,"Pay to learn quick money","Real skill no dey promise quick millions.",12000],
+["SMS","Your NIN don expire. Send ₦3,500 to this number make we renew am before Friday.",1,"Personal number, deadline","NIN no dey expire and nobody collect fee for SMS.",3500],
+["WhatsApp","Customer, I be your food vendor. I don change account. Send the ₦25k to this new one, the old one no dey work.",1,"Account change, urgency","Call the vendor yourself before you send.",25000],
+["Email","Dear Sir, I am Barrister Okoro. Your late uncle leave ₦400M. Send ₦50k for documents.",1,"Inheritance, pay for papers","No uncle, no inheritance. Delete am.",50000],
+["WhatsApp","Bros, see your pic dem post for Facebook o: facebook-pics.top",1,"Odd link, curiosity bait","Strange links fit steal your login.",40000],
+["SMS","You don qualify for FG ₦75,000 grant. Reply with your BVN and ATM number to receive.",1,"BVN and card number","Nobody good go ask for BVN and card number together.",120000],
+["Telegram","Join my VIP group, na 20x we dey hit every week. Send ₦25k, show proof of payment, we go add you.",1,"20x weekly","No be so money dey work.",25000],
+["POS","Customer, your transfer no go through o. Give me your phone make I reverse am for you.",1,"Wants to hold your phone","Hold your own phone and open your own app.",200000],
+["SMS","Abeg your airtime dey? Send ₦2k make I send ₦10k data bundle. Na MTN staff I be.",1,"Pay small, get big","No telco staff dey do this one.",2000],
+["WhatsApp","Your cousin abroad send gift parcel. Pay ₦38k clearance for Lagos office or e go return.",1,"Unexpected parcel, fee","Ask your cousin yourself first.",38000],
+["WhatsApp","Mama Tunde: Your jollof rice don ready. Come collect am for gate, ₦8,500 like we agreed.",0,"Matches your order","Same price, same person, you collect in person.",0],
+["SMS","Credit alert ₦25,000 from ADEYEMI TOLA. Your app balance match, and she don call say she send am.",0,"App confirms, sender called","Check your app, then match the sender. This one dey clean.",0],
+["WhatsApp","Boss: Payroll go run Friday. Nothing you need to do.",0,"Info only","No link, no ask.",0],
+["SMS","Light go dey off tomorrow 10am to 4pm for transformer work. Charge your phone.",0,"No link, no money","Just information. Charge your phone.",0],
+["WhatsApp","Church group: Choir rehearsal don move to 5pm Saturday.",0,"No money ask","Normal group message.",0],
+["Email","Your savings app: Welcome! Your account don open. We no go ever ask your PIN or OTP.",0,"You just signed up, warns against sharing","Welcome note, no link demand.",0],
+["WhatsApp","Landlord: Water pump don spoil. Each flat go contribute ₦5,000. I go collect for hand and give receipt.",0,"In person, with receipt","No transfer to a strange account.",0],
+["SMS","Your airtime top-up of ₦500 on 0803xxxxxxx don complete. Thanks.",0,"Matches what you did","Confirms a purchase you made.",0],
+["WhatsApp","Doc: Your result don ready. Come Monday with your card. No payment before you see me.",0,"In person, no pre-payment","Normal clinic message.",0],
+["SMS","Your data plan go renew tomorrow. To stop am, use your app.",0,"No link, use your app","Directs you to your own app.",0],
+["Email","Interview confirmed: Wed 2pm, Port Harcourt office. Address match the company website. No fee.",0,"Matches official site, no fee","Verify the address, then go.",0],
+["WhatsApp","Your delivery don reach. Rider go call you. No pay again, you don pay for app.",0,"You already paid in app","No new payment demanded.",0],
+["SMS","Reminder: Your vehicle licence go expire 30 Oct. Renew for the official FRSC office or portal.",0,"Points to the official source","No link in the SMS, no money to a personal account.",0],
+["WhatsApp · Yorùbá","Ẹ kú ìrọ̀lẹ́ ọ̀gá. Mo ti ṣìṣe fi ₦50,000 ránṣẹ́ sí ọ. Jọ̀ọ́ dá a padà kíákíá.",1,"Pressure to refund, no proof","Check your real balance in your bank app before you send anything back.",50000],
+["SMS · Yorùbá","Ẹ kú oríire! O ti jáwé olúborí ₦2,000,000. Fi ₦10,000 ránṣẹ́ kí a lè fi ránṣẹ́ sí ọ.",1,"Pay to receive a prize","Real prizes never ask you to pay first.",10000],
+["WhatsApp · Yorùbá","Fi ₦100,000 sí iṣẹ́ yìí, ní ọjọ́ méjìlá o máa gba ₦400,000. Kò sí ewu.",1,"Guaranteed 4x returns","No risk, big profit, short time: na Ponzi.",100000],
+["Call · Yorùbá","Mo wà láti ilé-ìfowópamọ́. Sọ kóòdù tí a fi ránṣẹ́ sí fóònù rẹ fún mi.",1,"Asks for your code","No bank asks for your OTP. Hang up and call the number on your card.",150000],
+["WhatsApp · Yorùbá","Màmá, nọ́mbà tuntun nìyí. Jọ̀wọ́ fi ₦30,000 ránṣẹ́ sí àkántì yìí, mo wà ní ìṣòro.",1,"New number, urgent money","Call your child on the old number first.",30000],
+["SMS · Yorùbá","Iná mànàmáná yóò lọ ní òpópónà wa ní ọ̀la láti aago mẹ́sàn-án sí aago mẹ́ta fún àtúnṣe.",0,"Info only","No link, no money. Charge your phone.",0],
+["WhatsApp · Yorùbá","Ẹ káàárọ̀. Ìpàdé ẹgbẹ́ wa wà ní Sátidé, aago mẹ́ta ọ̀sán. Ẹ máa bọ̀.",0,"Known group, no money ask","Normal group reminder.",0],
+["SMS · Yorùbá","O ra aírtáìmù ₦500 lórí 0803xxxxxxx. Ó ti parí. O ṣé.",0,"Matches what you did","Confirms a purchase you made.",0],
+["WhatsApp · Igbo","Nwanne m, m zigara gị ₦50,000 n'ezighị ezi. Biko ziga ya m ozugbo.",1,"Pressure to refund, no proof","Check your real balance in your bank app first.",50000],
+["SMS · Igbo","Congrats! I meriri ₦3,000,000 na MTN promo. Zipu ₦15,000 ka anyị zigara gị ya.",1,"Pay to receive a prize","You no enter, so how you win?",15000],
+["WhatsApp · Igbo","Tinye ₦100,000 taa, i ga-enweta ₦400,000 n'ime ụbọchị 14. Ọ nweghị ihe ize ndụ.",1,"Guaranteed 4x returns","No risk, big profit, short time: na Ponzi.",100000],
+["SMS · Igbo","Akaụntụ gị emechiela. Pịa njikọ a ka anyị meghee ya ozugbo.",1,"Link, panic","Banks don't send unblock links by SMS.",70000],
+["Call · Igbo","Abụ m onye ọrụ banki gị. Gwa m koodu e zigara gị ka m kwenye na ọ bụ gị.",1,"Asks for your code","No bank asks for your OTP.",150000],
+["SMS · Igbo","Ọkụ eletrik ga-apụ n'okporo ụzọ anyị echi site na elekere 9 ruo 3 maka mmezi.",0,"Info only","No link, no money.",0],
+["WhatsApp · Igbo","Nne: Ndewo! Nri ahụ dị njikere. Bịa were ya n'ọnụ ụzọ, ₦6,000 dịka anyị kwenyere.",0,"Matches your order, pay in person","Same price, you collect it yourself.",0],
+["SMS · Igbo","I zụrụ airtime ₦500 na 0803xxxxxxx. O mezuola. Daalụ.",0,"Matches what you did","Confirms a purchase you made.",0],
+["WhatsApp · Hausa","Ɗan'uwa, na tura maka ₦50,000 bisa kuskure. Don Allah ka mayar da shi da sauri.",1,"Pressure to refund, no proof","Check your real balance in your bank app first.",50000],
+["SMS · Hausa","Taya murna! Ka ci ₦3,000,000 a gasar MTN. Aika ₦15,000 domin mu tura maka kyautar.",1,"Pay to receive a prize","Real prizes never ask you to pay first.",15000],
+["WhatsApp · Hausa","Saka ₦100,000 yau, za ka samu ₦400,000 cikin kwana 14. Babu haɗari.",1,"Guaranteed 4x returns","No risk, big profit, short time: na Ponzi.",100000],
+["SMS · Hausa","An rufe asusunka na banki. Danna wannan hanyar haɗi don mu buɗe shi nan take.",1,"Link, panic","Banks don't send unblock links by SMS.",70000],
+["Call · Hausa","Ni ma'aikacin banki ne. Gaya mini lambar da aka aiko maka domin tabbatarwa.",1,"Asks for your code","No bank asks for your OTP.",150000],
+["SMS · Hausa","Za a ɗauke wutar lantarki a unguwarmu gobe daga ƙarfe 9 zuwa 3 saboda gyara.",0,"Info only","No link, no money.",0],
+["WhatsApp · Hausa","Sannu! Abincin ka ya shirya. Zo ka karɓa a ƙofar gida, ₦5,000 kamar yadda muka yarda.",0,"Matches your order, pay in person","Same price, you collect it yourself.",0],
+["SMS · Hausa","Ka sayi katin waya na ₦500 a 0803xxxxxxx. An kammala. Na gode.",0,"Matches what you did","Confirms a purchase you made.",0]
+];
+const R=["Mugu 🐑","Learner 📚","Street Smart 😎","Scam Survivor 🛡️","EFCC Material 🕵🏾"];
+const $=id=>document.getElementById(id),N=n=>"₦"+n.toLocaleString("en-NG");
+let q,i,ok,lost,lock,tm,tl,daily,st=null,dx=0,P,aiok,seed,CH={},hard=false,miss=[],tutor=false;
+/* Tiny Naive Bayes trained in the browser on the deck. Each card is scored by a model that has NOT seen that card (leave-one-out). */
+const tok=s=>(" "+s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/₦\s?[\d,.]+k?/g," moneyamt ").replace(/https?:\/\/\S+|\b[\w-]+\.(?:co|net|top|xyz|com|ng)\b/g," urltok ").replace(/\b(otp|pin|bvn)\b/g," $1 sensitive ")+" ").split(/[^a-z]+/).filter(w=>w.length>1);
+const M=[{},{}],T=[0,0],D=[0,0],V=new Set();
+C.forEach(c=>{const y=c[2];D[y]++;tok(c[1]).forEach(w=>{M[y][w]=(M[y][w]||0)+1;T[y]++;V.add(w)})});
+function prob(c){const y=c[2],ws=tok(c[1]);
+ws.forEach(w=>{M[y][w]--;T[y]--});D[y]--;
+const l=[0,1].map(k=>Math.log(D[k]/(D[0]+D[1]))+ws.reduce((s,w)=>s+Math.log(((M[k][w]||0)+1)/(T[k]+V.size)),0));
+ws.forEach(w=>{M[y][w]++;T[y]++});D[y]++;
+return 1/(1+Math.exp(-(l[1]-l[0])*0.4))}
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function show(id){["home","game","end","sub"].forEach(k=>$(k).classList.toggle("hide",k!==id))}
+function goHome(){show("home")}
+const TIP_URL="https://paystack.shop/pay/yod3kmybog";/* paste your Paystack or Flutterwave payment page link here */
+function tip(){if(TIP_URL.includes("YOUR-PAGE")){$("tip").textContent="Add your payment link to TIP_URL in the code";return}window.open(TIP_URL,"_blank")}
+function start(d,sd,h,tu){daily=d;hard=!!h;tutor=!!tu;miss=[];const t=new Date();seed=d?t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate():(sd||fresh());const r=rng(seed);try{localStorage.setItem("sol_name",name())}catch(e){}
+q=C.map((c,k)=>[r(),k]).sort((a,b)=>a[0]-b[0]).slice(0,10).map(x=>C[x[1]]);if(tutor)q=tut();i=0;ok=0;lost=0;aiok=0;P=q.map(prob);show("game");card()}
+function card(){const c=q[i];$("prog").textContent=(i+1)+"/10"+(tutor?" · Warm-up":"");$("lost").textContent="Lost: "+N(lost);$("ch").textContent=c[0];$("tx").textContent=c[1];
+$("st").className="stamp";$("card").style.borderColor="";$("card").style.transform="";$("rev").classList.add("hide");$("btns").classList.remove("hide");lock=false;
+tl=100;$("tb").style.width="100%";clearInterval(tm);tm=setInterval(()=>{tl-=hard?2:1;$("tb").style.width=tl+"%";if(tl<=0)ans(-1)},100)}
+function ans(a){if(lock)return;lock=true;clearInterval(tm);const c=q[i],right=a===c[2];
+if(right)ok++;else if(c[2]===1)lost+=c[5];if(!right)miss.push(c);fx(right);
+const p=P[i],aiR=(p>=.5)===(c[2]===1);if(aiR)aiok++;
+$("ai").textContent="🤖 AI: "+Math.round((p>=.5?p:1-p)*100)+"% "+(p>=.5?"scam":"legit")+(aiR?" ✓":" ✗")+(a===-1?"":" · You said "+(a?"scam":"legit"));
+$("lost").textContent="Lost: "+N(lost);
+const s=$("st");s.textContent=c[2]?"SCAM":"LEGIT";s.style.color=c[2]?"var(--r)":"var(--g)";s.className="stamp on";$("card").style.borderColor=c[2]?"var(--r)":"var(--g)";
+$("rv").textContent=a===-1?"⏰ Time up. It was "+(c[2]?"a scam.":"legit."):right?"✅ Correct":"❌ "+(c[2]?"That was a scam. You'd have lost "+N(c[5])+".":"That was legit. Don't be too paranoid.");
+$("rf").textContent=c[3]?"Clue: "+c[3]:"";$("rw").textContent=c[4];
+$("btns").classList.add("hide");$("rev").classList.remove("hide");$("rev").lastElementChild.textContent=i===9?"See my result":"Next"}
+function nxt(){i++;i>=10?fin():card()}
+function rank(){return ok<=3?0:ok<=5?1:ok<=7?2:ok<=9?3:4}
+function msg(){return "I got "+ok+"/10 on Scam or Legit? 🇳🇬 (AI got "+aiok+"/10)\nRank: "+(ok===10?(hard?"🥇 Hard Mode Ranked #1":"🏆 Ranked #1"):(R[rank()]+(hard?" ⚡ Hard":"")))+"\n"+(lost?"I would've lost "+N(lost)+".":"I lost ₦0. Nobody can scam me 🛡️")+"\nCan you beat me?\n"+shareURL()}
+function fin(){show("end");$("mode").textContent=(tutor?"Warm-up round":daily?"Today's challenge":"Random round")+(hard?" · Hard mode ⚡":"");$("sc").textContent=ok+"/10";$("vs").textContent="AI got "+aiok+"/10. "+(ok>aiok?"You beat the AI 🔥":ok===aiok?"You tied the AI":"The AI wan chop you this time");$("rk").textContent=ok===10?(hard?"🥇 Hard Mode Ranked #1":"🏆 Ranked #1"):R[rank()];$("rk").className=ok===10?"top1":"";try{let b=+localStorage.getItem("sol_best"+(hard?"h":""))||0;if(ok>b){b=ok;localStorage.setItem("sol_best"+(hard?"h":""),b)}$("pb").textContent="Your best: "+b+"/10"}catch(e){$("pb").textContent=""}$("sh").textContent=msg();after()}
+function wa(){window.open("https://wa.me/?text="+encodeURIComponent(msg()),"_blank")}
+function cp(){const done=()=>{$("cpb").textContent="Copied";setTimeout(()=>$("cpb").textContent="Copy",1500)};
+try{navigator.clipboard.writeText(msg()).then(done,()=>{})}catch(e){}}
+const name=()=>($("nm").value||"").trim();
+const dk=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function shareURL(){return location.href.split(/[?#]/)[0]+"?c="+seed+"&s="+ok+"&n="+encodeURIComponent(name())+"&h="+(hard?1:0)}
+function stk(){try{const o=JSON.parse(localStorage.getItem("sol_streak")||"{}"),t=dk(new Date()),y=dk(new Date(Date.now()-864e5));$("stk").textContent=(o.n&&(o.last===t||o.last===y))?"🔥 "+o.n+"-day streak":""}catch(e){}}
+const LB={url:"https://utmaelpfnyjckkohfrzf.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0bWFlbHBmbnlqY2trb2hmcnpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NDQ2ODYsImV4cCI6MjEwNzMyMDY4Nn0.WD2cAQV1VtwIN77Bn39Gj91R-mw31EGvBKbFZUA2wR0"};/* Supabase project URL and anon key. Leave empty to hide the leaderboard. */
+async function lb(){const b=$("lb");if(!LB.url)return;b.classList.remove("hide");b.textContent="Loading today's top 10...";
+try{const h={apikey:LB.key,Authorization:"Bearer "+LB.key},day=dk(new Date()),n=name();
+if(n&&localStorage.getItem("sol_lbday")!==day){await fetch(LB.url+"/rest/v1/scores",{method:"POST",headers:{...h,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({name:n,score:ok,day})});localStorage.setItem("sol_lbday",day)}
+const a=await(await fetch(LB.url+"/rest/v1/scores?day=eq."+day+"&order=score.desc,created_at.asc&limit=10&select=name,score",{headers:h})).json();
+b.textContent="";const t=document.createElement("b");t.textContent="🏆 Today's top 10";b.appendChild(t);
+a.forEach((x,k)=>{const p=document.createElement("p");p.textContent=(k+1)+". "+x.name+" · "+x.score+"/10";b.appendChild(p)})}catch(e){b.textContent="Leaderboard is offline."}}
+function after(){markSeen();try{localStorage.setItem("sol_played","1")}catch(e){}$("tut").classList.add("hide");
+const m=$("miss");m.textContent="";if(miss.length){m.classList.remove("hide");const t=document.createElement("b");t.textContent="Cards you missed";m.appendChild(t);miss.slice(0,3).forEach(c=>{const p=document.createElement("p");p.textContent=(c[2]?"SCAM: ":"LEGIT: ")+c[1].slice(0,90)+(c[1].length>90?"...":"")+" - "+(c[3]||c[4]);m.appendChild(p)})}else m.classList.add("hide");
+if(CH.c&&seed===CH.c){const d=ok-CH.s;$("pb").textContent+=" · "+(CH.n||"Your friend")+" got "+CH.s+"/10: "+(d>0?"you win 🔥":d===0?"tie":"they win")}
+if(daily){try{const t=dk(new Date()),y=dk(new Date(Date.now()-864e5));let o=JSON.parse(localStorage.getItem("sol_streak")||"{}");if(o.last!==t){o={last:t,n:o.last===y?(o.n||0)+1:1};localStorage.setItem("sol_streak",JSON.stringify(o))}}catch(e){}stk();lb()}}
+try{$("nm").value=localStorage.getItem("sol_name")||""}catch(e){}
+stk();
+const U=new URLSearchParams(location.search);
+if(U.get("c")){CH={c:+U.get("c"),s:+U.get("s")||0,h:U.get("h")==="1",n:(U.get("n")||"").slice(0,14)};$("chal").textContent=(CH.n||"A friend")+" got "+CH.s+"/10. Play the same 10 cards and beat them.";$("chal").classList.remove("hide");$("acc").classList.remove("hide")}
+const SUBMIT_EMAIL="";/* optional fallback if you are not using Supabase: your email */
+let lastSend=0;
+async function send(){const m=$("sm"),t=$("stx").value.trim(),ch=$("sch").value,k=$("skd").value;
+if(t.length<15){m.textContent="Write a bit more so we can use it.";return}
+if(/\d[\d\s-]{7,}\d/.test(t)){m.textContent="Please remove phone or account numbers.";return}
+if(Date.now()-lastSend<30000){m.textContent="Wait a few seconds before sending another.";return}
+try{
+if(LB.url){const r=await fetch(LB.url+"/rest/v1/submissions",{method:"POST",headers:{apikey:LB.key,Authorization:"Bearer "+LB.key,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({channel:ch,kind:k,text:t})});if(!r.ok)throw 0}
+else if(SUBMIT_EMAIL){window.open("mailto:"+SUBMIT_EMAIL+"?subject="+encodeURIComponent("Scam or Legit card: "+k)+"&body="+encodeURIComponent(ch+"\n\n"+t))}
+else{m.textContent="Submissions are not connected yet. Add your Supabase details or email in the code.";return}
+lastSend=Date.now();$("stx").value="";m.textContent="Thank you! If we use it, it becomes a card. 🙏🏾"}catch(e){m.textContent="Could not send. Try again."}}
+const EASY=[2,3,4,9,19,20,21,26,1,5,8,14,37,38];/* the most common scams and plain legit messages, used for the warm-up round */
+function tut(){const rr=rng(seed),sh=a=>a.map(v=>[rr(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+return[...sh(EASY).slice(0,6).map(k=>C[k]),...sh(C.map((c,k)=>k).filter(k=>!EASY.includes(k))).slice(0,4).map(k=>C[k])]}
+try{if(!localStorage.getItem("sol_played"))$("tut").classList.remove("hide")}catch(e){$("tut").classList.remove("hide")}
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function drawCard(){const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d"),F='"Bricolage Grotesque",system-ui,sans-serif',L=120;
+x.fillStyle="#0d1511";x.fillRect(0,0,W,H);x.fillStyle="#17221b";rr(x,60,60,W-120,H-120,48);x.fill();
+const T=(t,y,f,col)=>{x.font=f+" "+F;x.fillStyle=col;x.fillText(t,L,y)};
+const perfect=ok===10;
+T("Scam or Legit?",200,"800 72px","#e9f1ec");
+T((tutor?"Warm-up round":daily?"Today's challenge":"Random round")+(hard?" · Hard mode":""),262,"500 34px","#9db0a5");
+T(ok+"/10",640,"800 330px",perfect?"#f5c542":"#36c46f");
+T(perfect?(hard?"Hard Mode Ranked #1":"Ranked #1"):R[rank()],760,"800 76px","#e9f1ec");
+if(lost)T("I would've lost "+N(lost),880,"800 56px","#ff6b5e");else T("I lost ₦0. Nobody can scam me.",880,"800 50px","#36c46f");
+T("AI got "+aiok+"/10",960,"500 46px","#9db0a5");
+T("Can you beat me?",1130,"800 64px","#e9f1ec");
+T(location.href.split(/[?#]/)[0].replace(/^https?:\/\//,"").slice(0,48),1200,"500 32px","#9db0a5");
+return c}
+function shareImg(){const bt=$("imgb");drawCard().toBlob(async b=>{const f=new File([b],"scam-or-legit.png",{type:"image/png"});
+try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:msg()});return}}catch(e){if(e&&e.name==="AbortError")return}
+const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="scam-or-legit.png";document.body.appendChild(a);a.click();a.remove();bt.textContent="Saved to your downloads"},"image/png")}
+let au=null,muted=false,dip=null;try{muted=localStorage.getItem("sol_mute")==="1"}catch(e){}
+$("mt").textContent=muted?"🔇":"🔊";
+function beep(f,d){if(muted)return;try{au=au||new(window.AudioContext||window.webkitAudioContext)();const o=au.createOscillator(),g=au.createGain();o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(au.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,au.currentTime+d);o.stop(au.currentTime+d)}catch(e){}}
+function fx(r){try{if(!muted&&navigator.vibrate)navigator.vibrate(r?20:[90,40,90])}catch(e){}beep(r?660:170,r?.12:.25)}
+function mute(){muted=!muted;try{localStorage.setItem("sol_mute",muted?"1":"0")}catch(e){}$("mt").textContent=muted?"🔇":"🔊"}
+/* fewer repeats: remember seen cards and pick the random round with the most new ones. The seed still defines the deck, so challenge links keep working. */
+const hs=t=>{let h=5381;for(let k=0;k<t.length;k++)h=(h*33^t.charCodeAt(k))>>>0;return h};
+function deck(sd){const r=rng(sd);return C.map((c,k)=>[r(),k]).sort((a,b)=>a[0]-b[0]).slice(0,10).map(x=>C[x[1]])}
+function seenSet(){try{return new Set(JSON.parse(localStorage.getItem("sol_seen")||"[]"))}catch(e){return new Set()}}
+function fresh(){const S=seenSet();let best=1,bs=99;for(let k=0;k<40;k++){const sd=Math.floor(Math.random()*1e9)+1,n=deck(sd).filter(c=>S.has(hs(c[1]))).length;if(n<bs){bs=n;best=sd;if(!n)break}}return best}
+function markSeen(){try{let S=seenSet();q.forEach(c=>S.add(hs(c[1])));if(S.size>C.length-10)S=new Set(q.map(c=>hs(c[1])));localStorage.setItem("sol_seen",JSON.stringify([...S]))}catch(e){}}
+/* install prompt + offline support */
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();dip=e;$("ins").classList.remove("hide")});
+function inst(){if(dip){dip.prompt();dip=null;$("ins").classList.add("hide")}}
+if("serviceWorker" in navigator&&/^(https:|http:\/\/(localhost|127\.0\.0\.1))/.test(location.href))navigator.serviceWorker.register("sw.js").catch(()=>{});
+const cd=$("card");
+cd.addEventListener("pointerdown",e=>{if(lock)return;st=e.clientX;dx=0;cd.setPointerCapture(e.pointerId);cd.style.transition="none"});
+cd.addEventListener("pointermove",e=>{if(st===null)return;dx=e.clientX-st;cd.style.transform="translateX("+dx+"px) rotate("+dx/25+"deg)"});
+cd.addEventListener("pointerup",()=>{if(st===null)return;st=null;cd.style.transition="";if(dx>90)ans(0);else if(dx<-90)ans(1);cd.style.transform=""});
+cd.addEventListener("pointercancel",()=>{st=null;cd.style.transform=""});
+</script></body></html>
